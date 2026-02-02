@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chá de Casa Nova Lucas e Noah</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --preto: #1e1e1e;
+      --bege: #f5f1eb;
+      --verde: #b7d1c2;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bege);
+      color: var(--preto);
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 0;
+      color: #555;
+    }
+
+    .categoria {
+      margin-top: 40px;
+    }
+
+    .categoria h2 {
+      background-color: var(--verde);
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #fff;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    button {
+      background-color: var(--preto);
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+
+    .reservado {
+      color: #2f7a5a;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Chá de Casa Nova</h1>
+  <p>Lucas & Noah 💚</p>
+
+  <div id="lista"></div>
+
+  <footer>
+    Obrigado por fazer parte desse momento especial 💫
+  </footer>
+
+  <script>
+    const dados = {
+      "Cozinha": [
+        "Jogo de talheres",
+        "Jogo de pratos",
+        "Jogo de copos",
+        "Kit panelas",
+        "Escorredor de louça suspenso",
+        "Jarra de água",
+        "Lixeira",
+        "Porta tempero",
+        "Tábua de corte",
+        "Potes",
+        "Processador de alimentos (triturador)",
+        "Liquidificador",
+        "Cooktop",
+        "Tapete",
+        "Armário",
+        "Mesa"
+      ],
+      "Quarto": [
+        "Travesseiros",
+        "Edredom",
+        "Cobertor",
+        "Jogo de lençol",
+        "Cômoda",
+        "Guarda-roupa",
+        "Colchão",
+        "Cortina",
+        "Caixa organizadora",
+        "Sapateira"
+      ],
+      "Banheiro": [
+        "Toalha de banho",
+        "Toalha de rosto",
+        "Lixeira",
+        "Escova sanitária",
+        "Cesto de roupa",
+        "Tapete"
+      ],
+      "Área de serviço": [
+        "Vassoura e rodo",
+        "Varal",
+        "Pá de lixo",
+        "Máquina de lavar",
+        "Baldes",
+        "Aspirador de pó",
+        "Ferro de passar",
+        "Tábua de passar"
+      ],
+      "Sala": [
+        "Mesa de centro",
+        "Rack para TV",
+        "Almofadas",
+        "Cortina",
+        "Tapete de centro"
+      ]
+    };
+
+    const listaDiv = document.getElementById("lista");
+
+    function carregar() {
+      listaDiv.innerHTML = "";
+
+      for (const categoria in dados) {
+        const div = document.createElement("div");
+        div.className = "categoria";
+
+        div.innerHTML = `<h2>${categoria}</h2>`;
+        const ul = document.createElement("ul");
+
+        dados[categoria].forEach(item => {
+          const reservado = localStorage.getItem(item) === "reservado";
+
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <span>${item}</span>
+            ${
+              reservado
+                ? `<span class="reservado">Reservado</span>`
+                : `<button onclick="reservar('${item}')">Reservar</button>`
+            }
+          `;
+
+          ul.appendChild(li);
+        });
+
+        div.appendChild(ul);
+        listaDiv.appendChild(div);
+      }
+    }
+
+    function reservar(item) {
+      if (confirm(`Confirmar reserva de: ${item}?`)) {
+        localStorage.setItem(item, "reservado");
+        carregar();
+      }
+    }
+
+    carregar();
+  </script>
+
+</body>
+</html>
